@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ano novo das gatinhas</title>
+  <style>
+    :root {
+      --primary: #ff6b81;
+      --primary-hover: #ff4757;
+      --bg: #fff0f3;
+      --card-bg: #ffffff;
+      --text: #2f3542;
+      --text-muted: #747d8c;
+      --border-radius: 12px;
+      --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 20px 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+    }
+
+    header.header-banner {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.65) 100%);
+  z-index: 2;
+}
+
+.header-content {
+  position: relative;
+  z-index: 3;
+  padding: 35px 20px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.header-tag {
+  display: inline-block;
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-content h1 {
+  color: #ffffff;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-content p {
+  font-size: 0.95rem;
+  color: #f1f2f6;
+  opacity: 0.95;
+}
+
+    /* Menu / Abas */
+    .nav-tabs {
+      display: flex;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(255, 107, 129, 0.4);
+    }
+
+    /* Conteúdo das Abas */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Estilo da Programação (Accordion) */
+    .day-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid #ffe1e6;
+    }
+
+    .day-header {
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--card-bg);
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .day-header:hover {
+      background-color: #fff9fa;
+    }
+
+    .day-header .date {
+      color: var(--primary-hover);
+    }
+
+    .day-header .arrow {
+      transition: transform 0.3s ease;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .day-card.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .day-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease;
+      padding: 0 20px;
+      background: #fafafa;
+    }
+
+    .day-card.open .day-body {
+      padding: 15px 20px 20px;
+      max-height: 500px;
+      border-top: 1px dashed #ffd1d8;
+    }
+
+    .schedule-item {
+      margin-bottom: 12px;
+    }
+
+    .schedule-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .schedule-time {
+      font-weight: 700;
+      color: var(--primary-hover);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .schedule-desc {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .alert-box {
+      background-color: #ffeaa7;
+      color: #d63031;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .airbnb-link {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 14px;
+      background-color: #ff5a5f;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Estilo do Checklist */
+    .checklist-container {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f2f6;
+      cursor: pointer;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item input {
+      margin-right: 12px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .checklist-item span {
+      font-size: 1rem;
+      transition: color 0.2s, text-decoration 0.2s;
+    }
+
+    .checklist-item input:checked + span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+      <header class="header-banner">
+          <!-- Imagem de fundo -->
+          <div class="header-bg" style="background-image: url('capa.png');"></div>
+
+          <!-- Camada escura de fundo para dar leitura ao texto -->
+          <div class="header-overlay"></div>
+
+          <!-- Conteúdo do Header -->
+          <div class="header-content">
+              <span class="header-tag">Nossas férias</span>
+              <h1>Ano Novo das Gatinhas</h1>
+              <p>Roteiro de BH ao Espírito Santo</p>
+          </div>
+      </header>
+
+    <!-- Menu Principal -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('programacao')">Programação</button>
+      <button class="tab-btn" onclick="switchTab('checklist')">Checklist</button>
+    </nav>
+
+    <!-- ABA: PROGRAMAÇÃO -->
+    <main id="programacao" class="tab-content active">
+      
+      <!-- 30/12 -->
+      <div class="day-card">
+        <button class="day-header" onclick="toggleDay(this)">
+          <span><span class="date">30/12</span> — Quarta-feira</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="day-body">
+          <div class="schedule-item">
+            <span class="schedule-time">19:00h</span>
+            <span class="schedule-desc">Ida de BH até Cariacica</span>
+            <div class="alert-box">⚠️ Importante: Chegar até às 18:30h. Embarque é realizado até quinze minutos antes.</div>
+            <div class="schedule-desc" style="margin-top: 6px;">📍 <strong>Local:</strong> Praça da Estação</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 31/12 -->
+      <div class="day-card">
+        <button class="day-header" onclick="toggleDay(this)">
+          <span><span class="date">31/12</span> — Quinta-feira</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="day-body">
+          <div class="schedule-item">
+            <span class="schedule-time">08:15h</span>
+            <span class="schedule-desc">Chegada em Pedro Nolasco / Cariacica</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">10:00h</span>
+            <span class="schedule-desc">Check-in no Airbnb</span>
+            <br>
+            <a href="https://www.airbnb.com.br/rooms/1581438060033284473" target="_blank" class="airbnb-link">🏠 Ver Reserva no Airbnb</a>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">Tarde</span>
+            <span class="schedule-desc">Praia Secreta, Farol de Santa Luzia, Praia de Itaparica</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">Noite</span>
+            <span class="schedule-desc">Volta pro Airbnb, se arrumar.  <strong>Virada:</strong> Praia da Costa ou Praia de Camburi</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 01/01 -->
+      <div class="day-card">
+        <button class="day-header" onclick="toggleDay(this)">
+          <span><span class="date">01/01</span> — Sexta-feira</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="day-body">
+          <div class="schedule-item">
+            <span class="schedule-time">Manhã</span>
+            <span class="schedule-desc">Projeto Tamar</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">Tarde</span>
+            <span class="schedule-desc">Praia do Bananal, Praia da Sereia</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02/01 -->
+      <div class="day-card">
+        <button class="day-header" onclick="toggleDay(this)">
+          <span><span class="date">02/01</span> — Sábado (Dia em Guarapari)</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="day-body">
+          <div class="schedule-item">
+            <span class="schedule-time">Deslocamento</span>
+            <span class="schedule-desc">Descer de ônibus 672/673 ou intermunicipal (Terminal de Itaparica, Transcol | Viação Alvorada)</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">Manhã</span>
+            <span class="schedule-desc">Praia do Ermitão (trilha)</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">Tarde</span>
+            <span class="schedule-desc">Voltinha em Guarapari</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03/01 -->
+      <div class="day-card">
+        <button class="day-header" onclick="toggleDay(this)">
+          <span><span class="date">03/01</span> — Domingo</span>
+          <span class="arrow">▼</span>
+        </button>
+        <div class="day-body">
+          <div class="schedule-item">
+            <span class="schedule-desc">Voltinha em Vila Velha (Praia da Costa ou Praia de Camburi)</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-time">18:00h</span>
+            <span class="schedule-desc">Volta de Cariacica até BH</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ABA: CHECKLIST -->
+    <main id="checklist" class="tab-content">
+      <div class="checklist-container">
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Documentos</span>
+        </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Passagem (COMPRAR 45 DIAS ANTES)</span>
+          </label>
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Roupas babadeiras pra passear</span>
+        </label>
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Biquíni</span>
+        </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Tênis, sapato, chinelo</span>
+          </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Boné, meias, calcinhas, sutiã</span>
+          </label>
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Protetor solar, repelente, creme de corpo, sabonete</span>
+        </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Toalha, canga</span>
+          </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Bolsa térmica</span>
+          </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Creme de cabelo, piranha, pente, xuxinha</span>
+          </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>shampoo e condicionador, creme dental, escovas</span>
+          </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>desodorante, perfumes</span>
+          </label>
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Carregador de celular, carregador portátil e câmera</span>
+        </label>
+          <label class="checklist-item">
+              <input type="checkbox">
+              <span>Garrafa d'água</span>
+          </label>
+        <label class="checklist-item">
+          <input type="checkbox">
+          <span>Remédios: LÍTIO, remédio pra enjoo, dor de cabeça.</span>
+        </label>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Função para alternar entre as abas principais
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Função para expandir/recolher a programação do dia
+    function toggleDay(button) {
+      const card = button.parentElement;
+      card.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
